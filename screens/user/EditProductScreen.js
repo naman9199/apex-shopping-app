@@ -21,7 +21,7 @@ const EditProductScreen = (props) => {
         state.products.userProducts.find((prod) => prod.id === productId)
     );
 
-    console.log(editProduct);
+    // console.log(editProduct);
 
     const [title, setTitle] = useState(editProduct ? editProduct.title : "");
     const [url, setUrl] = useState(editProduct ? editProduct.imageUrl : "");
@@ -33,12 +33,11 @@ const EditProductScreen = (props) => {
     function onPressHandler() {
         // console.log("dispatch => ", productId, title, url, description);
         if (editProduct) {
-            console.log("id => ", productId);
-            return dispatch(
+            dispatch(
                 productAction.updateProduct(productId, title, url, description)
             );
         } else {
-            return dispatch(
+            dispatch(
                 productAction.addProduct(
                     title,
                     url,
@@ -47,6 +46,7 @@ const EditProductScreen = (props) => {
                 )
             );
         }
+        props.navigation.navigate("userProducts");
     }
     useLayoutEffect(() => {
         props.navigation.setOptions({

@@ -40,10 +40,7 @@ const UserProductsScreen = ({ navigation }) => {
         <View style={{ flex: 1, backgroundColor: "white" }}>
             <FlatList
                 data={products}
-                keyExtractor={(item) => {
-                    console.log("ID =>> ", item.id);
-                    return item.id;
-                }}
+                keyExtractor={(item) => item.id}
                 renderItem={renderItem}
             />
         </View>

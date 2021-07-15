@@ -13,17 +13,6 @@ const initialState = {
 
 const productsReducer = (state = initialState, action) => {
     switch (action.type) {
-        case DELETE_PRODUCT:
-            return {
-                ...state,
-                userProducts: state.userProducts.filter(
-                    (product) => product.id !== action.pid
-                ),
-                availableProducts: state.availableProducts.filter(
-                    (product) => product.id !== action.pid
-                ),
-            };
-
         case ADD_PRODUCT:
             const newProduct = new Product(
                 new Date().toString(),
@@ -65,6 +54,17 @@ const productsReducer = (state = initialState, action) => {
                 ...state,
                 availableProducts: updatedAvailableProducts,
                 userProducts: updatedUserProducts,
+            };
+
+        case DELETE_PRODUCT:
+            return {
+                ...state,
+                userProducts: state.userProducts.filter(
+                    (product) => product.id !== action.pid
+                ),
+                availableProducts: state.availableProducts.filter(
+                    (product) => product.id !== action.pid
+                ),
             };
 
         default:
