@@ -14,9 +14,9 @@ import { useSelector, useDispatch } from "react-redux";
 import * as cartAction from "../../store/actions/cart";
 
 const ProductDetailScreen = (props) => {
-    const ProductId = props.route.params.ProductId;
+    const productId = props.route.params.productId;
     const Product = useSelector((state) =>
-        state.products.availableProducts.find((prod) => prod.id === ProductId)
+        state.products.availableProducts.find((prod) => prod.id === productId)
     );
     const dispatch = useDispatch();
 

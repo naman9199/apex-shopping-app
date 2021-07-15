@@ -9,10 +9,18 @@ import Colors from "../constants/Colors";
 import CustomHeaderButton from "../components/UI/HeaderButton";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import OrdersScreen from "../screens/shop/OrdersScreen";
-import { FontAwesome5, FontAwesome } from "@expo/vector-icons";
+import {
+    FontAwesome5,
+    FontAwesome,
+    Ionicons,
+    Entypo,
+} from "@expo/vector-icons";
+import UserProductsScreen from "../screens/user/UserProductsScreen";
+import EditProductScreen from "../screens/user/EditProductScreen";
 
 const ProductsStack = createStackNavigator();
 const OrderStack = createStackNavigator();
+const AdminStack = createStackNavigator();
 const ShopDrawer = createDrawerNavigator();
 
 const headerConfig = {
@@ -29,9 +37,10 @@ function HeaderIcon(props) {
     return (
         <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
             <Item
-                title="Cart"
+                title={props.iconName}
                 iconName={props.iconName}
                 onPress={props.onPress}
+                iconSize={props.iconSize}
             />
         </HeaderButtons>
     );
@@ -93,13 +102,64 @@ function OrderNavigator() {
                     ...headerConfig,
                     headerLeft: () => (
                         <HeaderIcon
-                            iconName="arrow-back-outline"
-                            onPress={() => navigation.navigate("ProductStack")}
+                            iconName="ios-menu"
+                            onPress={() => navigation.openDrawer()}
                         />
                     ),
                 })}
             />
         </OrderStack.Navigator>
+    );
+}
+
+function AdminNavigator() {
+    return (
+        <AdminStack.Navigator>
+            <AdminStack.Screen
+                name="userProducts"
+                component={UserProductsScreen}
+                options={({ navigation }) => ({
+                    ...headerConfig,
+                    headerTitle: "Admin",
+                    headerLeft: () => (
+                        <HeaderIcon
+                            iconName="ios-menu"
+                            onPress={() => navigation.openDrawer()}
+                        />
+                    ),
+                    headerRight: () => (
+                        <HeaderIcon
+                            iconName="md-add"
+                            onPress={() =>
+                                navigation.navigate("editProducts", {
+                                    productId: 0,
+                                })
+                            }
+                            iconSize={27}
+                        />
+                    ),
+                })}
+            />
+            <AdminStack.Screen
+                name="editProducts"
+                component={EditProductScreen}
+                options={({ navigation, route }) => ({
+                    ...headerConfig,
+                    headerTitle: route.params.productId
+                        ? "Edit"
+                        : "Add Product",
+                    headerLeft: () => (
+                        <HeaderIcon
+                            iconName="arrow-back"
+                            onPress={() => navigation.goBack()}
+                        />
+                    ),
+                    // headerRight: () => (
+                    //     <HeaderIcon iconName="ios-checkmark-sharp" />
+                    // ),
+                })}
+            />
+        </AdminStack.Navigator>
     );
 }
 
@@ -146,6 +206,21 @@ function ShopNavigator() {
                         <FontAwesome
                             name="history"
                             size={20}
+                            color={drawerConfig.color}
+                        />
+                    ),
+                }}
+            />
+            <ShopDrawer.Screen
+                name="AdminStack"
+                component={AdminNavigator}
+                options={{
+                    title: "AdminMenu",
+                    drawerLabel: "Admin",
+                    drawerIcon: (drawerConfig) => (
+                        <Ionicons
+                            name="ios-create"
+                            size={24}
                             color={drawerConfig.color}
                         />
                     ),
