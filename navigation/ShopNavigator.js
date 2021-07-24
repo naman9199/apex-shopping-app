@@ -27,8 +27,9 @@ const headerConfig = {
     headerTintColor: Colors.primary,
     headerTitleStyle: { fontWeight: "bold" },
     headerStyle: {
-        borderBottomColor: "#eee",
+        elevation: 0,
         borderBottomWidth: 1,
+        borderColor: Colors.grey,
     },
     headerTitleAlign: "center",
 };

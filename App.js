@@ -1,7 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { createStore, combineReducers } from "redux";
+import { createStore, combineReducers, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import ProductReducer from "./store/reducers/products";
 import CartReducer from "./store/reducers/cart";
@@ -9,6 +9,7 @@ import orderReducer from "./store/reducers/orders";
 import ShopNavigator from "./navigation/ShopNavigator";
 import AppLoading from "expo-app-loading";
 import { useFonts } from "expo-font";
+import ReduxThunk from "redux-thunk";
 // import { composeWithDevTools } from "redux-devtools-extension";
 
 const RootReducer = combineReducers({
@@ -18,7 +19,8 @@ const RootReducer = combineReducers({
 });
 
 const store = createStore(
-    RootReducer
+    RootReducer,
+    applyMiddleware(ReduxThunk)
     // composeWithDevTools()
 );
 //IMP: composeWithDevTools is essential for the debugger tool for dev

@@ -1,5 +1,5 @@
 import React from "react";
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import { Alert, FlatList, StyleSheet, Text, View } from "react-native";
 import ProductItem from "../../components/ProductItem";
 import { useSelector, useDispatch } from "react-redux";
 import Btn from "../../components/UI/Btn";
@@ -22,7 +22,23 @@ const UserProductsScreen = ({ navigation }) => {
         >
             <Btn
                 title="DELETE"
-                onPress={() => dispatch(ProductAction.deleteProduct(item.id))}
+                onPress={() =>
+                    Alert.alert(
+                        "Are you sure?",
+                        "are you sure, you want to delete this item?",
+                        [
+                            { text: "No", style: "default" },
+                            {
+                                text: "Yes",
+                                style: "destructive",
+                                onPress: () =>
+                                    dispatch(
+                                        ProductAction.deleteProduct(item.id)
+                                    ),
+                            },
+                        ]
+                    )
+                }
                 style={{ backgroundColor: Colors.redAccent }}
             />
             <Btn
