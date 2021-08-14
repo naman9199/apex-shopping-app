@@ -31,7 +31,8 @@
     "redux": "^4.1.0",
     "redux-thunk": "^2.3.0",
     "validate.js": "^0.13.1",
-    "validator": "^13.6.0"
+    "validator": "^13.6.0",
+    "expo-linear-gradient": "~9.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",

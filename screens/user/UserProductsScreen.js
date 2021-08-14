@@ -1,5 +1,12 @@
-import React from "react";
-import { Alert, FlatList, StyleSheet, Text, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+    ActivityIndicator,
+    Alert,
+    FlatList,
+    StyleSheet,
+    Text,
+    View,
+} from "react-native";
 import ProductItem from "../../components/ProductItem";
 import { useSelector, useDispatch } from "react-redux";
 import Btn from "../../components/UI/Btn";
@@ -9,6 +16,27 @@ import * as ProductAction from "../../store/actions/products";
 const UserProductsScreen = ({ navigation }) => {
     const products = useSelector((state) => state.products.userProducts);
     const dispatch = useDispatch();
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState();
+
+    useEffect(() => {
+        if (error) {
+            Alert.alert("An error occured!", error);
+        }
+    }, [error]);
+
+    const handleDelete = async (id) => {
+        setIsLoading(true);
+        setError(null);
+        try {
+            await dispatch(ProductAction.deleteProduct(id));
+        } catch (err) {
+            console.log("error while deleting!");
+            setError(err.message);
+        }
+        setIsLoading(false);
+    };
+
     const renderItem = ({ item }) => (
         <ProductItem
             title={item.title}
@@ -31,10 +59,7 @@ const UserProductsScreen = ({ navigation }) => {
                             {
                                 text: "Yes",
                                 style: "destructive",
-                                onPress: () =>
-                                    dispatch(
-                                        ProductAction.deleteProduct(item.id)
-                                    ),
+                                onPress: async () => handleDelete(item.id),
                             },
                         ]
                     )
@@ -52,6 +77,23 @@ const UserProductsScreen = ({ navigation }) => {
             />
         </ProductItem>
     );
+
+    if (isLoading) {
+        return (
+            <View style={styles.centered}>
+                <ActivityIndicator size="large" color={Colors.primary} />
+            </View>
+        );
+    }
+
+    if (products.length === 0) {
+        return (
+            <View style={styles.centered}>
+                <Text>No Items to show!</Text>
+            </View>
+        );
+    }
+
     return (
         <View style={{ flex: 1, backgroundColor: "white" }}>
             <FlatList
@@ -65,4 +107,11 @@ const UserProductsScreen = ({ navigation }) => {
 
 export default UserProductsScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+    centered: {
+        flex: 1,
+        backgroundColor: "#fff",
+        alignItems: "center",
+        justifyContent: "center",
+    },
+});

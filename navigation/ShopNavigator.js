@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
+import { createSwitchNavigator } from "react-navigation";
 import ProductOverviewScreen from "../screens/shop/ProductOverviewScreen";
 import ProductDetailScreen from "../screens/shop/ProductDetailScreen";
 import { NavigationContainer } from "@react-navigation/native";
@@ -17,6 +18,8 @@ import {
 } from "@expo/vector-icons";
 import UserProductsScreen from "../screens/user/UserProductsScreen";
 import EditProductScreen from "../screens/user/EditProductScreen";
+import AuthScreen from "../screens/user/Auth";
+import { useSelector } from "react-redux";
 
 const ProductsStack = createStackNavigator();
 const OrderStack = createStackNavigator();
@@ -195,6 +198,7 @@ function ShopNavigator() {
                             color={drawerConfig.color}
                         />
                     ),
+                    unmountOnBlur: true,
                 }}
             />
             <ShopDrawer.Screen
@@ -210,6 +214,7 @@ function ShopNavigator() {
                             color={drawerConfig.color}
                         />
                     ),
+                    unmountOnBlur: true,
                 }}
             />
             <ShopDrawer.Screen
@@ -231,10 +236,24 @@ function ShopNavigator() {
     );
 }
 
+const Auth = createStackNavigator();
+
+function AuthNavigator() {
+    return (
+        <Auth.Navigator screenOptions={{ headerShown: false }}>
+            <Auth.Screen component={AuthScreen} name="AuthScreen" />
+        </Auth.Navigator>
+    );
+}
+
+let isAuth = true;
 export default function Navigator() {
+    const auth = useSelector((state) => state.auth);
+    console.log("AUTH => ", auth);
     return (
         <NavigationContainer>
-            <ShopNavigator />
+            {!auth.token && <AuthNavigator />}
+            {auth.token && <ShopNavigator />}
         </NavigationContainer>
     );
 }

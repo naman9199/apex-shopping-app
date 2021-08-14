@@ -3,16 +3,24 @@ import Product from "../../models/product";
 import {
     ADD_PRODUCT,
     DELETE_PRODUCT,
+    FETCH_ALL_PRODUCTS,
     UPDATE_PRODUCT,
 } from "../actions/products";
 
 const initialState = {
-    availableProducts: PRODUCTS,
-    userProducts: PRODUCTS.filter((prod) => prod.ownerId === "u1"),
+    availableProducts: [],
+    userProducts: [],
 };
 
 const productsReducer = (state = initialState, action) => {
     switch (action.type) {
+        case FETCH_ALL_PRODUCTS:
+            return {
+                availableProducts: action.products,
+                userProducts: action.products.filter(
+                    (prod) => prod.ownerId === "u1"
+                ),
+            };
         case ADD_PRODUCT:
             const newProduct = new Product(
                 action.productData.id,

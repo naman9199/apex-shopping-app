@@ -10,12 +10,14 @@ import ShopNavigator from "./navigation/ShopNavigator";
 import AppLoading from "expo-app-loading";
 import { useFonts } from "expo-font";
 import ReduxThunk from "redux-thunk";
+import AuthReducer from "./store/reducers/Auth";
 // import { composeWithDevTools } from "redux-devtools-extension";
 
 const RootReducer = combineReducers({
     products: ProductReducer,
     cart: CartReducer,
     orders: orderReducer,
+    auth: AuthReducer,
 });
 
 const store = createStore(

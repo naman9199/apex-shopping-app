@@ -6,6 +6,17 @@ import Colors from "../constants/Colors";
 const OrderItem = (props) => {
     const [showDetails, setShowDetails] = useState(false);
 
+    // console.log("DATE =>> ", getDate(props.getDate));
+
+    // function getDate() {
+    //     const date = props.getDate.toString();
+    //     // const dd = date.substring(8, 10);
+    //     // const mm = date.substring(5, 7);
+    //     // const yyyy = date.substring(0, 4);
+    //     // return `${dd}-${mm}-${yyyy}`;
+    //     return date;
+    // }
+
     return (
         <View style={styles.container}>
             <TouchableOpacity
@@ -20,7 +31,9 @@ const OrderItem = (props) => {
                             </Text>
                         </View>
                         <View style={styles.dateWrapper}>
-                            <Text style={styles.date}>{props.getDate}</Text>
+                            <Text style={styles.date}>
+                                {props.getDate.toString()}
+                            </Text>
                             {showDetails ? (
                                 <SimpleLineIcons
                                     name="arrow-down"
