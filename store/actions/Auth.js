@@ -7,7 +7,7 @@ export const signup = (email, password) => {
     return async (dispatch) => {
         try {
             const res = await axios({
-                url: "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyB4fY4dh0LZNCmxdd1AanzzkyKo6BAW2YU",
+                url: "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=[YOUR_KEY]",
                 method: "post",
                 headers: {
                     "Content-Type": "application/json",
@@ -40,7 +40,7 @@ export const signin = (email, password) => {
     return async (dispatch) => {
         try {
             const res = await axios({
-                url: "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyB4fY4dh0LZNCmxdd1AanzzkyKo6BAW2YU",
+                url: "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=[YOUR_KEY]",
                 method: "post",
                 headers: {
                     "Content-Type": "application/json",
