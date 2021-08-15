@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createSwitchNavigator } from "react-navigation";
@@ -249,11 +249,16 @@ function AuthNavigator() {
 let isAuth = true;
 export default function Navigator() {
     const auth = useSelector((state) => state.auth);
-    console.log("AUTH => ", auth);
+    // console.log("AUTH => ", auth);
+    const [isVerified, setIsVerified] = useState(false);
+    useEffect(() => {
+        if (auth.token) {
+            setIsVerified(true);
+        }
+    }, [auth]);
     return (
         <NavigationContainer>
-            {!auth.token && <AuthNavigator />}
-            {auth.token && <ShopNavigator />}
+            {isVerified ? <ShopNavigator /> : <AuthNavigator />}
         </NavigationContainer>
     );
 }

@@ -89,7 +89,7 @@ const UserProductsScreen = ({ navigation }) => {
     if (products.length === 0) {
         return (
             <View style={styles.centered}>
-                <Text>No Items to show!</Text>
+                <Text>Let's create some products!</Text>
             </View>
         );
     }

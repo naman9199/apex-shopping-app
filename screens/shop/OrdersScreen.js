@@ -36,7 +36,7 @@ const OrdersScreen = ({ navigation }) => {
     }, [dispatch]);
 
     const orders = useSelector((state) => state.orders.orders);
-    console.log(orders.length);
+    // console.log(orders.length);
     orders.sort((a, b) => a.date < b.date);
 
     function renderItem({ item }) {
@@ -51,10 +51,18 @@ const OrdersScreen = ({ navigation }) => {
         );
     }
 
+    if (orders.length === 0) {
+        return (
+            <View style={styles.centered}>
+                <Text>Let's order some products!</Text>
+            </View>
+        );
+    }
+
     if (error) {
         return (
             <View style={styles.centered}>
-                <Text>An Error Occured</Text>
+                <Text>An Error Occured!</Text>
                 <Button title="Try Again" onPress={() => loadData()} />
             </View>
         );

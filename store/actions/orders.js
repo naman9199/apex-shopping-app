@@ -5,15 +5,18 @@ export const FETCH_ORDER = "FETCH_ORDER";
 
 export const addOrder = (cartItems, totalAmount) => {
     const date = new Date();
-    return async (dispatch) => {
+    return async (dispatch, getState) => {
+        const token = getState().auth.token;
+        const userId = getState().auth.userId;
         try {
             const resp = await axios({
                 method: "post",
-                url: "https://shopapp-7e8fc-default-rtdb.firebaseio.com/orders/u1.json",
+                url: `https://shopapp-7e8fc-default-rtdb.firebaseio.com/orders/${userId}.json?auth=${token}`,
                 data: {
                     cartItems,
                     totalAmount,
                     date: date.toISOString(),
+                    ownerId: userId,
                 },
             });
 
@@ -39,13 +42,14 @@ export const addOrder = (cartItems, totalAmount) => {
 };
 
 export const fetchOrder = () => {
-    return async (dispatch) => {
+    return async (dispatch, getState) => {
+        const userId = getState().auth.userId;
         try {
             const res = await axios({
                 method: "get",
-                url: "https://shopapp-7e8fc-default-rtdb.firebaseio.com/orders/u1.json",
+                url: `https://shopapp-7e8fc-default-rtdb.firebaseio.com/orders/${userId}.json`,
             });
-            console.log("STATUS => ", res.status);
+            // console.log("STATUS => ", res.status);
             if (res.status !== 200) {
                 throw new Error("Something is wrong, status not 200");
             }
@@ -67,7 +71,7 @@ export const fetchOrder = () => {
                 orders: loadedData,
             });
         } catch (err) {
-            console.log("here!!");
+            console.log("error while fetching orders!!");
             throw err;
         }
     };

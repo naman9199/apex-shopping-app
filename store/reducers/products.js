@@ -15,16 +15,15 @@ const initialState = {
 const productsReducer = (state = initialState, action) => {
     switch (action.type) {
         case FETCH_ALL_PRODUCTS:
+            // console.log("USERSSSSSS@@@@@@ ->", action.userProducts);
             return {
                 availableProducts: action.products,
-                userProducts: action.products.filter(
-                    (prod) => prod.ownerId === "u1"
-                ),
+                userProducts: action.userProducts,
             };
         case ADD_PRODUCT:
             const newProduct = new Product(
                 action.productData.id,
-                "u1",
+                action.productData.ownerId,
                 action.productData.title,
                 action.productData.imageUrl,
                 action.productData.description,
