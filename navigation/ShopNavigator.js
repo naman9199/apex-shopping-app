@@ -20,6 +20,8 @@ import UserProductsScreen from "../screens/user/UserProductsScreen";
 import EditProductScreen from "../screens/user/EditProductScreen";
 import AuthScreen from "../screens/user/Auth";
 import { useSelector } from "react-redux";
+import StartScreen from "../screens/startScreen";
+import Profile from "../screens/user/Profile";
 
 const ProductsStack = createStackNavigator();
 const OrderStack = createStackNavigator();
@@ -35,6 +37,7 @@ const headerConfig = {
         borderColor: Colors.grey,
     },
     headerTitleAlign: "center",
+    headerTitleStyle: { fontFamily: "Nexa-Bold" },
 };
 
 function HeaderIcon(props) {
@@ -65,7 +68,6 @@ function ProductNavigator() {
                 options={({ navigation }) => ({
                     ...headerConfig,
                     headerTitle: "SHOPPING",
-                    headerTitleStyle: { fontFamily: "Nexa-Bold" },
                     headerRight: () => (
                         <HeaderIcon
                             iconName="ios-cart"
@@ -167,9 +169,10 @@ function AdminNavigator() {
     );
 }
 
-function ShopNavigator() {
+function ShopNavigator(shopProps) {
     return (
         <ShopDrawer.Navigator
+            initialRouteName="ProductStack"
             drawerContentOptions={{
                 activeTintColor: Colors.accent,
                 activeBackgroundColor: "white",
@@ -232,6 +235,30 @@ function ShopNavigator() {
                     ),
                 }}
             />
+            <ShopDrawer.Screen
+                name="Profile"
+                options={({ navigation }) => ({
+                    title: "Profile",
+                    drawerLabel: "Profile",
+                    ...headerConfig,
+                    headerShown: true,
+                    drawerIcon: (drawerConfig) => (
+                        <Ionicons
+                            name="person-circle"
+                            size={26}
+                            color={drawerConfig.color}
+                        />
+                    ),
+                    headerLeft: () => (
+                        <HeaderIcon
+                            iconName="ios-menu"
+                            onPress={() => navigation.openDrawer()}
+                        />
+                    ),
+                })}
+            >
+                {(props) => <Profile {...props} shopProps={shopProps} />}
+            </ShopDrawer.Screen>
         </ShopDrawer.Navigator>
     );
 }
@@ -246,7 +273,8 @@ function AuthNavigator() {
     );
 }
 
-let isAuth = true;
+const MainStack = createStackNavigator();
+
 export default function Navigator() {
     const auth = useSelector((state) => state.auth);
     // console.log("AUTH => ", auth);
@@ -258,7 +286,25 @@ export default function Navigator() {
     }, [auth]);
     return (
         <NavigationContainer>
-            {isVerified ? <ShopNavigator /> : <AuthNavigator />}
+            <MainStack.Navigator screenOptions={{ headerShown: false }}>
+                <MainStack.Screen name="Start">
+                    {(props) => (
+                        <StartScreen {...props} setIsVerified={setIsVerified} />
+                    )}
+                </MainStack.Screen>
+                <MainStack.Screen name="Main">
+                    {(props) =>
+                        !isVerified ? (
+                            <AuthNavigator {...props} />
+                        ) : (
+                            <ShopNavigator
+                                {...props}
+                                setIsVerified={setIsVerified}
+                            />
+                        )
+                    }
+                </MainStack.Screen>
+            </MainStack.Navigator>
         </NavigationContainer>
     );
 }

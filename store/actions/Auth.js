@@ -1,7 +1,24 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { TEST_API_KEY } from "../../apiKey";
 export const SIGNUP = "SIGNUP";
 export const SIGNIN = "SIGNIN";
+export const AUTHENTICATE = "AUTHENTICATE";
+
+export const authenticate = (userId, token) => {
+    return { type: AUTHENTICATE, userId, token };
+};
+
+const saveToStorage = (token, userId, expirationDate) => {
+    AsyncStorage.setItem(
+        "userData",
+        JSON.stringify({
+            token: token,
+            userId: userId,
+            expirationDate: expirationDate.toISOString(),
+        })
+    );
+};
 
 export const signup = (email, password) => {
     return async (dispatch) => {
@@ -18,13 +35,13 @@ export const signup = (email, password) => {
                     returnSecureToken: true,
                 },
             });
-            console.log(res.data);
             console.log("SIGN UP SUCCESS!");
-            dispatch({
-                type: SIGNUP,
-                token: res.data.idToken,
-                userId: res.data.localId,
-            });
+            dispatch(authenticate(res.data.localId, res.data.idToken));
+            const expirationDate = new Date(
+                new Date().getTime() + parseInt(res.data.expiresIn) * 1000
+            );
+
+            saveToStorage(res.data.idToken, res.data.localId, expirationDate);
         } catch (err) {
             const errorId = err.response.data.error.message;
             if (errorId === "EMAIL_EXISTS") {
@@ -51,13 +68,14 @@ export const signin = (email, password) => {
                     returnSecureToken: true,
                 },
             });
-            console.log(res.data);
             console.log("SIGN IN SUCCESS!");
-            dispatch({
-                type: SIGNIN,
-                token: res.data.idToken,
-                userId: res.data.localId,
-            });
+            dispatch(authenticate(res.data.localId, res.data.idToken));
+
+            const expirationDate = new Date(
+                new Date().getTime() + parseInt(res.data.expiresIn) * 1000
+            );
+
+            saveToStorage(res.data.idToken, res.data.localId, expirationDate);
         } catch (err) {
             const errorId = err.response.data.error.message;
             if (errorId === "EMAIL_NOT_FOUND") {

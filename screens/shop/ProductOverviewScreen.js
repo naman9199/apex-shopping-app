@@ -23,7 +23,6 @@ const ProductOverviewScreen = ({ navigation }) => {
     const [error, setError] = useState();
 
     const loadProducts = async () => {
-        console.log("Loaded Products");
         setIsRefreshing(true);
         try {
             setError(null);

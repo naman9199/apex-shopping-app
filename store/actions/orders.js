@@ -9,7 +9,7 @@ export const addOrder = (cartItems, totalAmount) => {
         const token = getState().auth.token;
         const userId = getState().auth.userId;
         try {
-            const resp = await axios({
+            const res = await axios({
                 method: "post",
                 url: `https://shopapp-7e8fc-default-rtdb.firebaseio.com/orders/${userId}.json?auth=${token}`,
                 data: {
@@ -20,16 +20,16 @@ export const addOrder = (cartItems, totalAmount) => {
                 },
             });
 
-            if (resp.status !== 200) {
+            if (res.status !== 200) {
                 throw new Error("Something is wrong, status not 200");
             }
 
-            console.log(resp.data);
+            console.log(res.data);
 
             dispatch({
                 type: ADD_ORDER,
                 orderData: {
-                    id: resp.data.name,
+                    id: res.data.name,
                     items: cartItems,
                     amount: totalAmount,
                     date,
