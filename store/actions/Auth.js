@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import { TEST_API_KEY } from "../../apiKey";
 export const SIGNUP = "SIGNUP";
 export const SIGNIN = "SIGNIN";
 
@@ -7,7 +7,7 @@ export const signup = (email, password) => {
     return async (dispatch) => {
         try {
             const res = await axios({
-                url: "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=[YOUR_KEY]",
+                url: `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${TEST_API_KEY}`,
                 method: "post",
                 headers: {
                     "Content-Type": "application/json",
@@ -40,7 +40,7 @@ export const signin = (email, password) => {
     return async (dispatch) => {
         try {
             const res = await axios({
-                url: "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=[YOUR_KEY]",
+                url: `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${TEST_API_KEY}`,
                 method: "post",
                 headers: {
                     "Content-Type": "application/json",
