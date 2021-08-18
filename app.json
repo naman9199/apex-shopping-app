@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "ShopApp",
-    "slug": "ShopApp",
+    "name": "Apex",
+    "slug": "apexshopping",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -27,6 +27,8 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": "Shopping app MVP",
+    "githubUrl": "https://github.com/naman9199/apex-shopping-app"
   }
 }
