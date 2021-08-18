@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
-import { TEST_API_KEY } from "../../apiKey";
+import { REACT_APP_API_TEST_KEY } from "@env";
 export const SIGNUP = "SIGNUP";
 export const SIGNIN = "SIGNIN";
 export const AUTHENTICATE = "AUTHENTICATE";
@@ -52,7 +52,7 @@ export const signup = (email, password) => {
     return async (dispatch) => {
         try {
             const res = await axios({
-                url: `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${TEST_API_KEY}`,
+                url: `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${REACT_APP_API_TEST_KEY}`,
                 method: "post",
                 headers: {
                     "Content-Type": "application/json",
@@ -91,7 +91,7 @@ export const signin = (email, password) => {
     return async (dispatch) => {
         try {
             const res = await axios({
-                url: `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${TEST_API_KEY}`,
+                url: `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${REACT_APP_API_TEST_KEY}`,
                 method: "post",
                 headers: {
                     "Content-Type": "application/json",
