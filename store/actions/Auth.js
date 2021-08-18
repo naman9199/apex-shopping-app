@@ -1,8 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { REACT_APP_API_TEST_KEY } from "@env";
-export const SIGNUP = "SIGNUP";
-export const SIGNIN = "SIGNIN";
 export const AUTHENTICATE = "AUTHENTICATE";
 export const LOGOUT = "LOGOUT";
 
