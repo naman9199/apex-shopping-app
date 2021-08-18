@@ -27,7 +27,7 @@ const startScreen = (props) => {
                     await dispatch(authenticate(userId, token, expirationTime));
                 }
             }
-            props.navigation.navigate("Main");
+            props.navigation.replace("Main");
         };
         loginAttempt();
     }, []);
