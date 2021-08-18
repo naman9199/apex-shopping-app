@@ -3,7 +3,7 @@ import { View, Text, ActivityIndicator, StyleSheet } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Colors from "../constants/Colors";
 import { useDispatch } from "react-redux";
-import { authenticate } from "../store/actions/Auth";
+import { authenticate, logout } from "../store/actions/Auth";
 
 const startScreen = (props) => {
     const dispatch = useDispatch();
@@ -11,18 +11,20 @@ const startScreen = (props) => {
         const loginAttempt = async () => {
             const userData = await AsyncStorage.getItem("userData");
             if (!userData) {
-                props.setIsVerified(false);
+                await dispatch(logout());
             } else {
                 const jsonData = JSON.parse(userData);
 
                 const { token, userId, expirationDate } = jsonData;
                 const expiryDate = new Date(expirationDate);
 
+                const expirationTime =
+                    expiryDate.getTime() - new Date().getTime();
+
                 if (expiryDate <= new Date() || !token || !userId) {
-                    props.setIsVerified(false);
+                    await dispatch(logout());
                 } else {
-                    props.setIsVerified(true);
-                    dispatch(authenticate(userId, token));
+                    await dispatch(authenticate(userId, token, expirationTime));
                 }
             }
             props.navigation.navigate("Main");

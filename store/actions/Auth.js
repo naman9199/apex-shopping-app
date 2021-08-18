@@ -4,11 +4,9 @@ import { TEST_API_KEY } from "../../apiKey";
 export const SIGNUP = "SIGNUP";
 export const SIGNIN = "SIGNIN";
 export const AUTHENTICATE = "AUTHENTICATE";
+export const LOGOUT = "LOGOUT";
 
-export const authenticate = (userId, token) => {
-    return { type: AUTHENTICATE, userId, token };
-};
-
+let timer;
 const saveToStorage = (token, userId, expirationDate) => {
     AsyncStorage.setItem(
         "userData",
@@ -18,6 +16,36 @@ const saveToStorage = (token, userId, expirationDate) => {
             expirationDate: expirationDate.toISOString(),
         })
     );
+};
+
+const clearTimer = () => {
+    if (timer) {
+        clearTimeout(timer);
+    }
+};
+
+const setLogoutTimer = (expirationTime) => {
+    console.log(expirationTime);
+    return (dispatch) => {
+        timer = setTimeout(() => {
+            dispatch(logout());
+        }, expirationTime);
+    };
+};
+
+export const logout = () => {
+    AsyncStorage.removeItem("userData").then(() =>
+        console.log("TOKEN DELETED!")
+    );
+    clearTimer();
+    return { type: LOGOUT };
+};
+
+export const authenticate = (userId, token, expirationTime) => {
+    return (dispatch) => {
+        dispatch(setLogoutTimer(expirationTime));
+        dispatch({ type: AUTHENTICATE, userId, token });
+    };
 };
 
 export const signup = (email, password) => {
@@ -36,7 +64,13 @@ export const signup = (email, password) => {
                 },
             });
             console.log("SIGN UP SUCCESS!");
-            dispatch(authenticate(res.data.localId, res.data.idToken));
+            dispatch(
+                authenticate(
+                    res.data.localId,
+                    res.data.idToken,
+                    parseInt(res.data.expiresIn) * 1000
+                )
+            );
             const expirationDate = new Date(
                 new Date().getTime() + parseInt(res.data.expiresIn) * 1000
             );
@@ -69,7 +103,13 @@ export const signin = (email, password) => {
                 },
             });
             console.log("SIGN IN SUCCESS!");
-            dispatch(authenticate(res.data.localId, res.data.idToken));
+            dispatch(
+                authenticate(
+                    res.data.localId,
+                    res.data.idToken,
+                    parseInt(res.data.expiresIn) * 1000
+                )
+            );
 
             const expirationDate = new Date(
                 new Date().getTime() + parseInt(res.data.expiresIn) * 1000

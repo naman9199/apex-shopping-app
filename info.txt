@@ -1,0 +1,13 @@
+if you get the warning for multiple "Invariant Violation: Tried to register two views with the same name RNCSafeAreaProvider error with @react-navigation/stack"
+
+-> run "npm dedupe"
+
+for Timer warning: 
+
+-> Go to node_modules/react-native/Libraries/Core/Timer/JSTimers.js
+
+-> Look for the variable MAX_TIMER_DURATION_MS
+
+-> Change 60 * 1000 to 10000 * 1000 , needed for firebase
+
+this is because using setTimeout() with a big timeout duration (as we're setting it => 1 hour), can't be handled in the most efficient way by Android.

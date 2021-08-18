@@ -275,13 +275,15 @@ function AuthNavigator() {
 
 const MainStack = createStackNavigator();
 
-export default function Navigator() {
+export default function Navigator(props) {
+    // const { isVerified, setIsVerified } = props;
     const auth = useSelector((state) => state.auth);
-    // console.log("AUTH => ", auth);
     const [isVerified, setIsVerified] = useState(false);
     useEffect(() => {
         if (auth.token) {
             setIsVerified(true);
+        } else {
+            setIsVerified(false);
         }
     }, [auth]);
     return (
@@ -289,7 +291,10 @@ export default function Navigator() {
             <MainStack.Navigator screenOptions={{ headerShown: false }}>
                 <MainStack.Screen name="Start">
                     {(props) => (
-                        <StartScreen {...props} setIsVerified={setIsVerified} />
+                        <StartScreen
+                            {...props}
+                            // setIsVerified={setIsVerified}
+                        />
                     )}
                 </MainStack.Screen>
                 <MainStack.Screen name="Main">

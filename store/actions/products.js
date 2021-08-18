@@ -119,7 +119,7 @@ export const updateProduct = (id, title, imageUrl, description) => {
                     description,
                 },
             });
-            console.log("Updated data =>> ", response.data);
+            // console.log("Updated data =>> ", response.data);
             dispatch({
                 type: UPDATE_PRODUCT,
                 pid: id,

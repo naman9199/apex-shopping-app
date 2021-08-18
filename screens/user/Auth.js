@@ -21,7 +21,6 @@ import { signup, signin } from "../../store/actions/Auth";
 const FORM_INPUT_UPDATE = "FORM_INPUT_UPDATE";
 const formReducer = (state, action) => {
     if (action.type === FORM_INPUT_UPDATE) {
-        // console.log("HERE!!!");
         const updatedValues = {
             ...state.inputValues,
             [action.input]: action.value,

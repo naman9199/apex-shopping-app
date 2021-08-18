@@ -1,10 +1,13 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useDispatch } from "react-redux";
 import Btn from "../../components/UI/Btn";
 import Colors from "../../constants/Colors";
+import { logout } from "../../store/actions/Auth";
 
 const Profile = (props) => {
+    const dispatch = useDispatch();
     return (
         <View style={styles.screen}>
             <View>
@@ -12,9 +15,9 @@ const Profile = (props) => {
             </View>
             <Btn
                 title="Logout!"
-                onPress={async () => {
-                    await AsyncStorage.removeItem("userData");
+                onPress={() => {
                     props.shopProps.setIsVerified(false);
+                    dispatch(logout());
                     console.log("LOGGED OUT SUCCESS!");
                 }}
             />

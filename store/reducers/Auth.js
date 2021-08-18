@@ -1,4 +1,5 @@
-import { AUTHENTICATE, SIGNUP } from "../actions/Auth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AUTHENTICATE, LOGOUT, SIGNUP } from "../actions/Auth";
 import { SIGNIN } from "../actions/Auth";
 
 const initialState = {
@@ -9,11 +10,13 @@ const initialState = {
 const AuthReducer = (state = initialState, action) => {
     switch (action.type) {
         case AUTHENTICATE:
-            console.log("REDUCER => ", action.token, action.userId);
+            // console.log("REDUCER => ", action.token, action.userId);
             return {
                 token: action.token,
                 userId: action.userId,
             };
+        case LOGOUT:
+            return initialState;
         default:
             return state;
     }
