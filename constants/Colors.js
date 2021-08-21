@@ -3,4 +3,5 @@ export default {
     accent: "#099",
     grey: "#ccc",
     redAccent: "#c24",
+    labels: "#999",
 };

@@ -22,13 +22,14 @@ import AuthScreen from "../screens/user/Auth";
 import { useSelector } from "react-redux";
 import StartScreen from "../screens/startScreen";
 import Profile from "../screens/user/Profile";
+import Drawer from "./Drawer";
 
 const ProductsStack = createStackNavigator();
 const OrderStack = createStackNavigator();
 const AdminStack = createStackNavigator();
 const ShopDrawer = createDrawerNavigator();
 
-const headerConfig = {
+export const headerConfig = {
     headerTintColor: Colors.primary,
     headerTitleStyle: { fontWeight: "bold" },
     headerStyle: {
@@ -40,7 +41,7 @@ const headerConfig = {
     headerTitleStyle: { fontFamily: "Nexa-Bold" },
 };
 
-function HeaderIcon(props) {
+export function HeaderIcon(props) {
     return (
         <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
             <Item
@@ -169,97 +170,108 @@ function AdminNavigator() {
     );
 }
 
+// function ShopNavigator(shopProps) {
+//     return (
+//         <ShopDrawer.Navigator
+//             initialRouteName="ProductStack"
+//             drawerContentOptions={{
+//                 activeTintColor: Colors.accent,
+//                 activeBackgroundColor: "white",
+//                 style: {
+//                     backgroundColor: "white",
+//                     paddingTop: 20,
+//                     paddingLeft: 10,
+//                 },
+//                 labelStyle: {
+//                     fontSize: 20,
+//                     fontFamily: "Nexa-Bold",
+//                     marginLeft: -15,
+//                 },
+//             }}
+//         >
+//             <ShopDrawer.Screen
+//                 name="ProductStack"
+//                 component={ProductNavigator}
+//                 options={{
+//                     title: "Products",
+//                     drawerLabel: "Explore",
+//                     drawerIcon: (drawerConfig) => (
+//                         <FontAwesome
+//                             name="shopping-bag"
+//                             size={20}
+//                             color={drawerConfig.color}
+//                         />
+//                     ),
+//                     unmountOnBlur: true,
+//                 }}
+//             />
+//             <ShopDrawer.Screen
+//                 name="OrdersStack"
+//                 component={OrderNavigator}
+//                 options={{
+//                     title: "Orders",
+//                     drawerLabel: "Your Orders",
+//                     drawerIcon: (drawerConfig) => (
+//                         <FontAwesome
+//                             name="history"
+//                             size={20}
+//                             color={drawerConfig.color}
+//                         />
+//                     ),
+//                     unmountOnBlur: true,
+//                 }}
+//             />
+//             <ShopDrawer.Screen
+//                 name="AdminStack"
+//                 component={AdminNavigator}
+//                 options={{
+//                     title: "AdminMenu",
+//                     drawerLabel: "Admin",
+//                     drawerIcon: (drawerConfig) => (
+//                         <Ionicons
+//                             name="ios-create"
+//                             size={24}
+//                             color={drawerConfig.color}
+//                         />
+//                     ),
+//                 }}
+//             />
+//             <ShopDrawer.Screen
+//                 name="Profile"
+//                 options={({ navigation }) => ({
+//                     title: "Profile",
+//                     drawerLabel: "Profile",
+//                     ...headerConfig,
+//                     headerShown: true,
+//                     drawerIcon: (drawerConfig) => (
+//                         <Ionicons
+//                             name="person-circle"
+//                             size={26}
+//                             color={drawerConfig.color}
+//                         />
+//                     ),
+//                     headerLeft: () => (
+//                         <HeaderIcon
+//                             iconName="ios-menu"
+//                             onPress={() => navigation.openDrawer()}
+//                         />
+//                     ),
+//                 })}
+//             >
+//                 {(props) => <Profile {...props} shopProps={shopProps} />}
+//             </ShopDrawer.Screen>
+//         </ShopDrawer.Navigator>
+//     );
+// }
+
 function ShopNavigator(shopProps) {
     return (
-        <ShopDrawer.Navigator
-            initialRouteName="ProductStack"
-            drawerContentOptions={{
-                activeTintColor: Colors.accent,
-                activeBackgroundColor: "white",
-                style: {
-                    backgroundColor: "white",
-                    paddingTop: 20,
-                    paddingLeft: 10,
-                },
-                labelStyle: {
-                    fontSize: 20,
-                    fontFamily: "Nexa-Bold",
-                    marginLeft: -15,
-                },
-            }}
-        >
-            <ShopDrawer.Screen
-                name="ProductStack"
-                component={ProductNavigator}
-                options={{
-                    title: "Products",
-                    drawerLabel: "Explore",
-                    drawerIcon: (drawerConfig) => (
-                        <FontAwesome
-                            name="shopping-bag"
-                            size={20}
-                            color={drawerConfig.color}
-                        />
-                    ),
-                    unmountOnBlur: true,
-                }}
-            />
-            <ShopDrawer.Screen
-                name="OrdersStack"
-                component={OrderNavigator}
-                options={{
-                    title: "Orders",
-                    drawerLabel: "Your Orders",
-                    drawerIcon: (drawerConfig) => (
-                        <FontAwesome
-                            name="history"
-                            size={20}
-                            color={drawerConfig.color}
-                        />
-                    ),
-                    unmountOnBlur: true,
-                }}
-            />
-            <ShopDrawer.Screen
-                name="AdminStack"
-                component={AdminNavigator}
-                options={{
-                    title: "AdminMenu",
-                    drawerLabel: "Admin",
-                    drawerIcon: (drawerConfig) => (
-                        <Ionicons
-                            name="ios-create"
-                            size={24}
-                            color={drawerConfig.color}
-                        />
-                    ),
-                }}
-            />
-            <ShopDrawer.Screen
-                name="Profile"
-                options={({ navigation }) => ({
-                    title: "Profile",
-                    drawerLabel: "Profile",
-                    ...headerConfig,
-                    headerShown: true,
-                    drawerIcon: (drawerConfig) => (
-                        <Ionicons
-                            name="person-circle"
-                            size={26}
-                            color={drawerConfig.color}
-                        />
-                    ),
-                    headerLeft: () => (
-                        <HeaderIcon
-                            iconName="ios-menu"
-                            onPress={() => navigation.openDrawer()}
-                        />
-                    ),
-                })}
-            >
-                {(props) => <Profile {...props} shopProps={shopProps} />}
-            </ShopDrawer.Screen>
-        </ShopDrawer.Navigator>
+        <Drawer
+            ProductNavigator={ProductNavigator}
+            OrderNavigator={OrderNavigator}
+            AdminNavigator={AdminNavigator}
+            shopProps={shopProps}
+        />
     );
 }
 

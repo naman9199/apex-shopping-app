@@ -34,6 +34,7 @@ export default function App() {
         "Nexa-light": require("./assets/fonts/NexaLight.otf"),
         "Gotham-Book": require("./assets/fonts/GothamBook.ttf"),
         "Gotham-Bold": require("./assets/fonts/GothamBold.ttf"),
+        "Suranna-Regular": require("./assets/fonts/Suranna-Regular.ttf"),
     });
 
     if (!fontsLoaded) {
