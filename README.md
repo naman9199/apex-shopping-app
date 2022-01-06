@@ -1,5 +1,5 @@
 # apex-shopping-app
-##created by -Naman Barkiya
+## created by -Naman Barkiya
 
 # Setting up development environment:
 
